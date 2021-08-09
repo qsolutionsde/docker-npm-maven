@@ -1,7 +1,7 @@
 # using latest node alpine image https://hub.docker.com/_/node/
 
 
-FROM node:14-alpine
+FROM node:lts-alpine3.14
 LABEL maintainer="info@qsolutions.de"
 
 ## install docker
@@ -9,8 +9,7 @@ LABEL maintainer="info@qsolutions.de"
 #CMD [ "node" ]
 
 ## START install docker based on (https://github.com/docker-library/docker/)
-RUN apk add --no-cache \
-		ca-certificates
+RUN apk add --no-cache ca-certificates
 
 # set up nsswitch.conf for Go's "netgo" implementation (which Docker explicitly uses)
 # - https://github.com/docker/docker-ce/blob/v17.09.0-ce/components/engine/hack/make.sh#L149
@@ -129,8 +128,7 @@ ENV JAVA_VERSION 13.0.8
 ENV JAVA_ALPINE_VERSION 13.0.8_p5-r0
 
 RUN set -x \
-	&& apk add --no-cache \
-		openjdk13 \
+	&& apk add --no-cache openjdk13 \
 	&& [ "$JAVA_HOME" = "$(docker-java-home)" ]
 
 # If you're reading this and have any feedback on how this image could be
