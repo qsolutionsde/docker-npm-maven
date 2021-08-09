@@ -121,14 +121,14 @@ RUN { \
 		echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"'; \
 	} > /usr/local/bin/docker-java-home \
 	&& chmod +x /usr/local/bin/docker-java-home
-ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
-ENV PATH $PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin
+ENV JAVA_HOME /opt/openjdk-13
+ENV PATH $PATH:/opt/openjdk-13:/opt/openjdk-13/bin
 
 ENV JAVA_VERSION 13.0.8
 ENV JAVA_ALPINE_VERSION 13.0.8_p5-r0
 
 RUN set -x \
-	&& apk add --no-cache openjdk13 \
+	&& apk add --no-cache openjdk13 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
 	&& [ "$JAVA_HOME" = "$(docker-java-home)" ]
 
 # If you're reading this and have any feedback on how this image could be
