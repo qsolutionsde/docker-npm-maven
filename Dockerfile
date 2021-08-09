@@ -1,8 +1,8 @@
 # using latest node alpine image https://hub.docker.com/_/node/
 
 
-FROM node:10-alpine
-LABEL maintainer="clement.schockaert@outlook.com"
+FROM node:14-alpine
+LABEL maintainer="info@qsolutions.de"
 
 ## install docker
 
@@ -19,7 +19,7 @@ RUN apk add --no-cache \
 RUN [ ! -e /etc/nsswitch.conf ] && echo 'hosts: files dns' > /etc/nsswitch.conf
 
 ENV DOCKER_CHANNEL stable
-ENV DOCKER_VERSION 18.06.0-ce
+ENV DOCKER_VERSION 20.10.08-ce
 # TODO ENV DOCKER_SHA256
 # https://github.com/docker/docker-ce/blob/5b073ee2cf564edee5adca05eee574142f7627bb/components/packaging/static/hash_files !!
 # (no SHA file artifacts on download.docker.com yet as of 2017-06-07 though)
@@ -80,13 +80,13 @@ RUN apk update && apk upgrade && \
 ## START locale customization
 
 #RUN locale-gen en_US.UTF-8
-ENV LANG=fr_FR.UTF-8 \
-    LANGUAGE=fr_FR.UTF-8 \
-    LC_CTYPE=fr_FR.UTF-8 \
-    LC_ALL=fr_FR.UTF-8
+ENV LANG=en_US.UTF-8 \
+    LANGUAGE=en_US.UTF-8 \
+    LC_CTYPE=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8
 RUN apk add --update --no-cache socat curl tzdata findutils
 
-ENV TZ=Europe/Paris
+ENV TZ=Europe/Berlin
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 ## END locale customization
@@ -125,12 +125,12 @@ RUN { \
 ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
 ENV PATH $PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin
 
-ENV JAVA_VERSION 8u171
-ENV JAVA_ALPINE_VERSION 8.171.11-r0
+ENV JAVA_VERSION 13.0.8
+ENV JAVA_ALPINE_VERSION 13.0.8_p5-r0
 
 RUN set -x \
 	&& apk add --no-cache \
-		openjdk8="$JAVA_ALPINE_VERSION" \
+		openjdk13="$JAVA_ALPINE_VERSION" \
 	&& [ "$JAVA_HOME" = "$(docker-java-home)" ]
 
 # If you're reading this and have any feedback on how this image could be
@@ -176,7 +176,7 @@ RUN gem install danger && \
 
 RUN apk add --no-cache curl tar bash procps
 
-ARG MAVEN_VERSION=3.5.4
+ARG MAVEN_VERSION=3.8.1
 ARG USER_HOME_DIR="/root"
 ARG SHA=ce50b1c91364cb77efe3776f756a6d92b76d9038b0a0782f7d53acf1e997a14d
 ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
